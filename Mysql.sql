@@ -1,29 +1,37 @@
-#std -id name per cityid courseid
-#course -co name coid
-#to display view
-#to create or replace view
-create database school;
-use school;
-create table student(stdid int,sname varchar(29),percentage int, cityid int, courseid int);
-insert into student values(1,'divya',80, 101,11),
-                          (2,'sakii',90, 102,12),
-                          (3,'pragii',70, 103,13),
-                          (4,'namrii',60, 103,14);
-create table city(id int primary key, name varchar(20));
-insert into city values(101,'pune'),(102,'akluj'),(103,'solapur'),(104,'malshiras');
-create table course(coursename varchar(20),courseid int);
-insert into course values('java',11),('python',12),('pascal',13),('html',14);
-select * from student;
-select * from city;
-select * from course;
+create database innerjjoin;
+use innerjoin;
 
-select s.name as std_name,
-       c.name as Course_Name,
-       ct.name as City_Name
-from student as s inner join
-course as c on  courseid = c.id
-inner join city as ct
-on s.cityid = ct.id;
+create table employee(EmpID int, EmpName varchar(20), DeptID int);
+insert into employee values(1,"Pranali", 10),
+                            (2,"Sonali", 20),
+                            (3,"Priya", 30),
+                            (4,"Neha", Null),
+                            (5,"Kiran", 40),
+                            (6,"Ananya", 50);
+create table Department(DeptID int,DeptName varchar(20));
+insert into Department values(10,"HR"),
+                              (20,"IT"),
+                              (30,"Finanace"),
+                              (40,"Marketing"),
+                              (50,"Operations");
 
+select e.EmpName,d.DeptName from employee e inner join Department d on e.DeptID = d.DeptID;
+select e.EmpID,e.EmpName,d.DeptName from employee e inner join Department d on e.DeptID = d.DeptID where d.DeptName = "IT";
+select d.DeptName, e.EmpName from Department d inner join employee e on d.DeptID = e.DeptID; 
+select e.EmpName,d.DeptName from employee e inner join Department d on e.DeptID = d.DeptID order by e.EmpName;
+select e.EmpName,d.DeptName from employee e inner join Department d on e.DeptID = d.DeptID;
 
+#Left join
+select e.EmpID,e.EmpName,d.DeptName from employee e left join Department d on e.DeptID = d.DeptID;
+select e.EmpID,e.EmpName from employee e left join department d on e.DeptID = e.DeptID where d.DeptID is null;
+select e.EmpName, d.DeptName from employee e left join department d on e.DeptID = d.DeptID;
+select e.EmpID,e.EmpName,d.DeptName from employee e left join Department d on e.DeptID = e.DeptID order by d.DeptName;
+select e.EmpID,e.EmpName,d.DeptName from employee e left join department d on e.DeptID = d.DeptID where d.DeptName = 'HR';
+
+#Right join
+select e.EmpName,d.DeptName from department d right join employee e on e.DeptID = d.DeptID;
+select d.DeptName,e.EmpName from Department d right join employee e on e.DeptID = d.DeptID;
+select d.DeptID,d.DeptName from employee e right join department d on e.DeptID = d.DeptID where e.EmpID is null;
+select d.DeptName,d.DeptName from employee e right join department d on e.DeptID = d.DeptID order by d.DeptName;
+select e.EmpName from employee e right join department d on e.DeptID = d.DeptID where d.DeptName = 'Marketing';
 
